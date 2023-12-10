@@ -50,7 +50,11 @@ def invoice_page_post(request: HttpRequest):
         account_holder_name=request.POST.get("account_holder_name"),
     )
 
+    print("Test Print")
+    print(timezone.now().date())
+    print(datetime.strptime(invoice.date_due,'%Y-%m-%d'))
     invoice.items.set(invoice_items)
+    payment_status= "overdue" if timezone.now().date() > datetime.strptime(invoice.date_due,'%Y-%m-%d') else "pending"
 
     return redirect("invoices dashboard")
 
